@@ -1,0 +1,22 @@
+Challenges
+
+    Making framework extendable with third party widgets
+        Challenge: Importing all widgets in a directory
+            Solution:
+                - Make directory a python module by including a __init__.py file
+                - Have __init__.py include all widgets in directory in parent module
+                    - https://stackoverflow.com/questions/1057431/how-to-load-all-widgets-in-a-folder
+        Challenge: Listing imported widgets
+            Partial Solution: 
+                - https://stackoverflow.com/questions/4858100/how-to-list-imported-widgets
+        Challenge: Referencing imported widgets
+            Notes:
+                - https://stackoverflow.com/questions/17142090/how-to-get-reference-to-module-by-string-name-and-call-its-method-by-string-name
+                - https://www.tutorialspoint.com/How-to-call-a-function-of-a-module-from-a-string-with-the-function-s-name-in-Python-1
+        Challenge: Mounting imported widgets
+        Challenge: Linking imported widgets to framework functionality
+            Notes:
+                - Widget contains list of database entries it can interact with?
+                - Widget contains list of builtin widgets it can interact with?
+
+    
