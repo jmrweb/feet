@@ -19,4 +19,23 @@ Challenges
                 - Widget contains list of database entries it can interact with?
                 - Widget contains list of builtin widgets it can interact with?
 
+    Developing UI
+        Challenge: Layout
+            - Understanding styling with css
+        Challenge: File_menu
+        Challenge: tabs
+            - adding close_tab buttons
+            - adding host_tabcontextual menus
+                - extending Tab with Hosttab
+        Challenge: Content switching
+            - Content-switcher
+
+
+
+Textual notes
+    - Decent documentation but not widely used
+        - very little in the way of searchable help online
+
+    
+
     

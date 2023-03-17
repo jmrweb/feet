@@ -1,3 +1,55 @@
 Screen {
-    align: center middle;
+    layout: vertical;
+    /* align: center middle; */
+    layers: one two three;
+}
+
+#ip_tabs {
+    background: #4c00ff;
+}
+
+Label {
+    margin:1 1;
+    background: $panel;
+    border: tall $primary;
+    content-align: center middle;
+}
+
+.menu {
+    background: #001eff;
+    height: 3;
+    width: auto;
+}
+
+.module {
+    width: 1fr;
+}
+
+.module_tabs {
+    dock: top;
+    background: #000000;
+}
+
+.modules_container {
+    background: $panel;
+    border: tall $primary;
+}
+
+Tabs {
+    margin-top: -1;
+    height: 3;
+}
+
+#top_bar {
+    dock: top;
+    background: #001eff;
+    width: 100%;
+    height: 2;
+}
+
+Tree {
+    dock: left;
+    width: 20%;
+    background: $panel;
+    border: tall $primary;
 }
