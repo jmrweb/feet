@@ -15,7 +15,7 @@ Label {
     content-align: center middle;
 }
 
-.menu {
+.menu_button {
     background: #001eff;
     height: 3;
     width: auto;
@@ -26,7 +26,7 @@ Label {
 }
 
 .module_tabs {
-    dock: top;
+    /* dock: top; */
     background: #000000;
 }
 
@@ -40,7 +40,7 @@ Tabs {
     height: 3;
 }
 
-#top_bar {
+.menu_bar {
     dock: top;
     background: #001eff;
     width: 100%;

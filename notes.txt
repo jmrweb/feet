@@ -24,11 +24,12 @@ Challenges
             - Understanding styling with css
         Challenge: File_menu
         Challenge: tabs
+            Utilize Tabs widget
             - adding close_tab buttons
             - adding host_tabcontextual menus
                 - extending Tab with Hosttab
         Challenge: Content switching
-            - Content-switcher
+            Utilize Content-switcher widget
 
 
 

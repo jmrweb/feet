@@ -6,8 +6,8 @@ import types
 
 from textual.app import App, ComposeResult
 from textual.containers import Container, Horizontal, Vertical
-from textual.widgets import ContentSwitcher, Footer, Header, Label, Placeholder, Tabs, Tree
-
+from textual.widgets import ContentSwitcher, Footer, Header, Label, Placeholder, Tab, Tabs, Tree
+from textual import log
 #import widgets
 from widgets import *
 
@@ -114,20 +114,38 @@ class FeetApp(App):
     def compose(self) -> ComposeResult:
         yield Header(show_clock=True)
         with Vertical(id="main"):
-            with Horizontal(id="top_bar"):
-                yield Placeholder("Placeholder 1", id="file", classes="menu")
-                yield Placeholder("Placeholder 2", classes="menu")
-                yield Tabs("192.168.0.11", "192.168.0.12", "192.168.0.13", id="ip_tabs")
-            with Horizontal(id="modules_container1", classes="modules_container"):
-                yield Tabs("nmap", "dirscan", id="module_tabs1", classes="module_tabs")
-                yield Placeholder("Placeholder 3", id="placeholder_3", classes="module")
-                yield Placeholder("Placeholder 4", id="placeholder_4", classes="module")
+            with Horizontal(id="top_bar", classes="menu_bar"):
+                yield Placeholder("File", id="file", classes="menu_button")
+                yield Placeholder(" + ", id="add_host", classes="menu_button")
+                yield Tabs(
+                    Tab("192.168.0.11", id="ip192-168-0-11"),
+                    Tab("192.168.0.12", id="ip192-168-0-12"),
+                    id="ip_tabs",
+                )
+            with ContentSwitcher(id="ip_switcher", classes="vertical"):
+                with Vertical(id="ip192-168-0-11", classes="modules_container"):
+                    with Horizontal(classes="menu_bar"):
+                        yield Placeholder(" + ", id="add_module", classes="menu_button")
+                        yield Tabs(
+                            Tab("nmap", id="nmap"),
+                            Tab("dirscan", id="dirscan"),
+                            id="module_tabs", classes="module_tabs",
+                        )
+                    with ContentSwitcher(id="module_switcher"):
+                        yield Placeholder("nmap", id="nmap", classes="module")
+                        yield Placeholder("dirscan", id="dirscan", classes="module")
+                with Vertical(id="ip192-168-0-12", classes="modules_container"):
+                    with Horizontal(classes="menu_bar"):
+                        yield Placeholder(" + ", id="add_module", classes="menu_button")
+                        yield Tabs(
+                            Tab("wpscan", id="wpscan"),
+                            Tab("ffuf", id="ffuf"),
+                            id="module_tabs", classes="module_tabs",
+                        )
+                    with ContentSwitcher(id="module_switcher"):
+                        yield Placeholder("wpscan", id="wpscan", classes="module")
+                        yield Placeholder("ffuf", id="ffuf", classes="module")
 
-
-            # with Container(id="modules_container2", classes="modules_container"):
-            #     yield Tabs(NAMES[0], id="module_tabs2", classes="module_tabs")
-            #     yield Placeholder("Placeholder 5")
-            #     yield Placeholder("Placeholder 6")
         yield Footer()
         #yield widgetselector.Widgetselector(self.widgets)
         #yield Container(widgetselector.Widgetselector(), id="container_main")
@@ -135,7 +153,13 @@ class FeetApp(App):
 
     def on_tabs_tab_activated(self, event: Tabs.TabActivated) -> None:
         """Handle TabActivated message sent by Tabs."""
-        pass
+        if event.tab.parent.parent.parent.parent.id == "ip_tabs":
+            self.query_one("#ip_switcher").current = event.tab.id
+        elif event.tab.parent.parent.parent.parent.id == "module_tabs":
+            event.tab.parent.parent.parent.parent.parent.parent.query_one(ContentSwitcher).current = event.tab.id
+        else:
+            log(f"[bold_red]on_tabs_tab_activated: [/] Parent Tabs: {event.tab.parent.parent.parent.parent.id}")
+            log(f"[bold_red]on_tabs_tab_activated: [/] Parent ContentSwitcher: {event.tab.parent.parent.parent.parent.parent.query_one(ContentSwitcher)}")
         # label = self.query_one(Label)
         # if event.tab is None:
         #     # When the tabs are cleared, event.tab will be None
