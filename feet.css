@@ -4,21 +4,50 @@ Screen {
     layers: one two three;
 }
 
+#file_menu_list {
+    layer: three;
+    width: 8;
+    offset: 0 2;
+}
+
+#ip_switcher {
+    layout: vertical;
+}
+
 #ip_tabs {
     background: #4c00ff;
 }
 
-Label {
+/*Label {
     margin:1 1;
     background: $panel;
     border: tall $primary;
     content-align: center middle;
+
+}*/
+
+ListView {
+    height: auto;
+}
+
+.menu_bar {
+    dock: top;
+    background: #001eff;
+    width: 100%;
+    height: 2;
 }
 
 .menu_button {
+    border: none;
     background: #001eff;
     height: 3;
     width: auto;
+}
+
+#network_menu_list {
+    layer: three;
+    width: 22;
+    offset: 4 2;
 }
 
 .module {
@@ -31,25 +60,11 @@ Label {
 }
 
 .modules_container {
-    background: $panel;
-    border: tall $primary;
+    /* background: $panel; */
+    /* border: tall $primary; */
 }
 
 Tabs {
     margin-top: -1;
     height: 3;
-}
-
-.menu_bar {
-    dock: top;
-    background: #001eff;
-    width: 100%;
-    height: 2;
-}
-
-Tree {
-    dock: left;
-    width: 20%;
-    background: $panel;
-    border: tall $primary;
 }

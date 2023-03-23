@@ -1,14 +1,17 @@
-
-
 import sys
 #import inspect
 import types
 
 from textual.app import App, ComposeResult
-from textual.containers import Container, Horizontal, Vertical
-from textual.widgets import ContentSwitcher, Footer, Header, Label, Placeholder, Tab, Tabs, Tree
+from textual.containers import Horizontal, Vertical
+from textual.reactive import reactive
+from textual.widgets import Button, ContentSwitcher, Footer, Header, Label, ListView, ListItem, Placeholder, Tab, Tabs
 from textual import log
-#import widgets
+from textual import widget
+from textual import events
+
+#import 3rd party widgets
+from widgets.menubutton import MenuButton
 from widgets import *
 
 NAMES = [
@@ -112,20 +115,58 @@ class FeetApp(App):
     #        label.update(event.tab.label)
 
     def compose(self) -> ComposeResult:
+
         yield Header(show_clock=True)
+        # with Vertical(id="main"):
+        #     with Horizontal(id="top_bar", classes="menu_bar"):
+        #         yield Placeholder("File", id="file", classes="menu_button")
+        #         yield Placeholder(" + ", id="add_host", classes="menu_button")
+        #         with TabbedContent():
+        #             yield Placeholder("File", id="file", classes="menu_button")
+        #             yield Placeholder(" + ", id="add_host", classes="menu_button")
+        #             with TabPane("192.168.0.11", id="ip192-168-0-11"):
+        #                 with TabbedContent():
+        #                     with TabPane("nmap", id="nmap"):
+        #                         yield Placeholder("nmap", id="nmap", classes="module")
+        #                     with TabPane("dirscan", id="dirscan"):
+        #                         yield Placeholder("dirscan", id="dirscan", classes="module")
+        #             with TabPane("192.168.0.12", id="ip192-168-0-12"):
+        #                 with TabbedContent():
+        #                     with TabPane("wpscan", id="wpscan"):
+        #                         yield Placeholder("wpscan", id="wpscan", classes="module")
+        #                     with TabPane("ffuf", id="ffuf"):
+        #                         yield Placeholder("ffuf", id="ffuf", classes="module")
+                    
         with Vertical(id="main"):
             with Horizontal(id="top_bar", classes="menu_bar"):
-                yield Placeholder("File", id="file", classes="menu_button")
-                yield Placeholder(" + ", id="add_host", classes="menu_button")
+                yield MenuButton("File", id="file_menu_button", classes="menu_button")
+                yield Button("Network", id="network_menu_button", classes="menu_button")
+                yield Placeholder(" + ", id="add_host_button", classes="menu_button")
                 yield Tabs(
                     Tab("192.168.0.11", id="ip192-168-0-11"),
                     Tab("192.168.0.12", id="ip192-168-0-12"),
                     id="ip_tabs",
                 )
-            with ContentSwitcher(id="ip_switcher", classes="vertical"):
+            yield ListView(
+                ListItem(Label("Open")),
+                ListItem(Label("Save")),
+                ListItem(Label("Save As")),
+                ListItem(Label("Exit")),
+                initial_index=None, id="file_menu_list",
+            )
+            # yield ListView(
+            #     ListItem(Label("add network")),
+            #     ListItem(Label("remove network")),
+            #     ListItem(Label("clear networks")),
+            #     ListItem(Label("192.168.0.0/24")),
+            #     ListItem(Label("192.168.1.0/24")),
+            #     ListItem(Label("192.168.255.255/24")),
+            #     initial_index=None, id="network_menu_list",
+            # )
+            with ContentSwitcher(id="ip_switcher"):
                 with Vertical(id="ip192-168-0-11", classes="modules_container"):
                     with Horizontal(classes="menu_bar"):
-                        yield Placeholder(" + ", id="add_module", classes="menu_button")
+                        yield Placeholder(" + ", id="add_module_button", classes="menu_button")
                         yield Tabs(
                             Tab("nmap", id="nmap"),
                             Tab("dirscan", id="dirscan"),
@@ -136,7 +177,7 @@ class FeetApp(App):
                         yield Placeholder("dirscan", id="dirscan", classes="module")
                 with Vertical(id="ip192-168-0-12", classes="modules_container"):
                     with Horizontal(classes="menu_bar"):
-                        yield Placeholder(" + ", id="add_module", classes="menu_button")
+                        yield Placeholder(" + ", id="add_module_button", classes="menu_button")
                         yield Tabs(
                             Tab("wpscan", id="wpscan"),
                             Tab("ffuf", id="ffuf"),
@@ -145,21 +186,50 @@ class FeetApp(App):
                     with ContentSwitcher(id="module_switcher"):
                         yield Placeholder("wpscan", id="wpscan", classes="module")
                         yield Placeholder("ffuf", id="ffuf", classes="module")
-
         yield Footer()
         #yield widgetselector.Widgetselector(self.widgets)
         #yield Container(widgetselector.Widgetselector(), id="container_main")
         #self.add_imported_widgets()
 
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Handle ButtonPressed message sent by Button."""
+        if event.button.id == "file_menu_button":
+            if self.query_one("#file_menu_list").visible == False:
+                self.query_one("#file_menu_list").visible = True
+            elif self.query_one("#file_menu_list").visible == True:
+                self.query_one("#file_menu_list").visible = False
+        else:
+            log(f"[bold_red]on_button_pressed: [/] Unknown button: {event.widget.id}")
+
+    # def on_descendant_blur(self, event: events.DescendantBlur) -> None:
+    #     """Handle Blur message sent by Button."""
+    #     if event.handler_name == "file_menu_button":
+    #         self.query_one("#file_menu_list").visible = False
+    #     else:
+    #         log(f"[bold_red]on_descendant_blur: [/] Unknown event: {event.handler_name}")
+
+    def on_click(self, event: events.Click) -> None:
+        """Hide menus when mouse is clicked outside of them."""
+        self.query_one("#file_menu_list").visible = False
+
+    # def on_menu_button_blur(self, message: MenuButton.Blur):
+    #     """Handle Blur message sent by MenuButton."""
+    #     log(f"[bold_red]on_tabs_tab_activated: [/] MessageID: {message.id}")
+    #     if message.id == "file_menu_button":
+    #         self.query_one("#file_menu_list").visible = False
+
     def on_tabs_tab_activated(self, event: Tabs.TabActivated) -> None:
         """Handle TabActivated message sent by Tabs."""
-        if event.tab.parent.parent.parent.parent.id == "ip_tabs":
+        if event.tabs.id == "ip_tabs":
             self.query_one("#ip_switcher").current = event.tab.id
-        elif event.tab.parent.parent.parent.parent.id == "module_tabs":
-            event.tab.parent.parent.parent.parent.parent.parent.query_one(ContentSwitcher).current = event.tab.id
+        elif event.tabs.id == "module_tabs":
+            event.tabs.parent.parent.query_one(ContentSwitcher).current = event.tab.id
         else:
-            log(f"[bold_red]on_tabs_tab_activated: [/] Parent Tabs: {event.tab.parent.parent.parent.parent.id}")
-            log(f"[bold_red]on_tabs_tab_activated: [/] Parent ContentSwitcher: {event.tab.parent.parent.parent.parent.parent.query_one(ContentSwitcher)}")
+            log(f"[bold_red]on_tabs_tab_activated: [/] Parent Tabs: {event.tabs.id}")
+            log(f"[bold_red]on_tabs_tab_activated: [/] Parent ContentSwitcher: {event.tabs.parent.parent.query_one(ContentSwitcher)}")
+        
+        
+        
         # label = self.query_one(Label)
         # if event.tab is None:
         #     # When the tabs are cleared, event.tab will be None
