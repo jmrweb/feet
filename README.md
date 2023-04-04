@@ -1,12 +1,6 @@
 # Feet
 
-## Friendly Enumeration and Exploitation Tool
-
-## Friendly, Extensible Enumeration Tool
-
-## Fett
-## Friendly Enumeration Tool for Terminal
-## Friendly Enumeration Tool for Textual
+## Friendly Extensible Enumeration Tool
 
 ## API
 
