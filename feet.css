@@ -1,13 +1,25 @@
 Screen {
-    layout: vertical;
-    /* align: center middle; */
+    /* layout: vertical; */
+    align: center middle;
     layers: one two three;
+}
+
+#add_module_list {
+    layer: three;
+    width: 8;
+    offset: 0 2;
 }
 
 #file_menu_list {
     layer: three;
     width: 8;
     offset: 0 2;
+}
+
+HostInput {
+    layer: three;
+    content-align: center middle;
+
 }
 
 #ip_switcher {
@@ -67,4 +79,8 @@ ListView {
 Tabs {
     margin-top: -1;
     height: 3;
+}
+
+.title {
+    content-align: center middle;
 }

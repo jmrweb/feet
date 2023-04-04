@@ -22,15 +22,64 @@ Challenges
     Developing UI
         Challenge: Layout
             - Understanding styling with css
-        Challenge: File_menu
-        Challenge: tabs
-            Utilize Tabs widget
-            - adding close_tab buttons
-            - adding host_tabcontextual menus
-                - extending Tab with Hosttab
-        Challenge: Content switching
-            Utilize Content-switcher widget
 
+        Challenge: File_menu
+            Challenge: Hiding menu when focus is lost
+                Solution:
+                    - Have widget send focus lost message
+                        - Requires: Extend Button widget to send a message to parent (including copy of button) on loss of focus.
+                        Challenge: How to have widget reference itself in focus lost message
+                            Solution:
+                                - from __future__ import annotations
+                                    - https://github.com/python/mypy/issues/3661
+            Challenge: Exit functionality
+                Solution:
+                    - call exit() in on_list_view_selected
+
+        Challenge: Module menu
+            Challenge: Listing modules
+            Challenge: Calling modules
+                Partial Solution:
+                    - Extend Vertical with HostContainer
+                        - Add add_module function to class
+                            - Instantiate new module
+                            - mount new module with module_switcher
+                            - wait for mount
+                            - add new tab to module_tabs
+                                - crosslink module and tab ids
+
+        Challenge: Adding new hosts
+            Partial Solution:
+                - Add host button
+                    - makes HostInput widget visible
+                - HostInput widget
+                    - Window with input for host ip
+                    - Enter activates add_host() function and makes widget invisible
+                        - Add_host adds appropriate tabs and content pane to host_tabs and host_switcher
+
+        Challenge: tabs
+            Solution:
+                - Utilize Tabs widget
+                Challenge: adding close_tab buttons
+                    Problem: Unable to close tabs
+                    Solution:
+                        - E
+                Challenge: adding host_tabcontextual menus
+                    Possible Solution:
+                        - extending Tab with tab
+                Challenge: Automatically switch to newly created tabs.
+                    Problem: tabs.add_tab does not activate new tab automatically 
+                    Solution:
+                        - Extend Tabs with ImprovedTabs
+                            - Override add_tab to automaically switch to newly added tab
+                                
+        Challenge: Content switching
+            Solution:
+                - Utilize Content-switcher widget
+                Challenge: Content panes for newly created tabs not displaying correctly
+                    Partial Solution:
+                        - Extend Tabs with ImprovedTabs
+                            - Modify add_tab to move switching to new tab into aysnc refresh_active() function, forcing it to wait for the content pane to be mounted first.
 
 
 Textual notes
