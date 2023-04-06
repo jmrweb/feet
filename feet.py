@@ -4,14 +4,14 @@ import types
 
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
-from textual.widgets import Button, ContentSwitcher, Footer, Header, Input, Label, ListView, ListItem, Placeholder, Static, Tab
+from textual.widgets import Button, ContentSwitcher, Footer, Header, Input, Label, ListView, ListItem, Placeholder, Static
 from textual import log
 from textual import events
 
 #import 3rd party widgets
 from widgets.menubutton import MenuButton
 from widgets.menulist import MenuList
-from widgets.improvedtabs import ImprovedTabs
+from widgets.improvedtabs import ImprovedTabs, ImprovedTab
 from widgets import *
 
 class HostContainer(Vertical):
@@ -31,7 +31,7 @@ class HostContainer(Vertical):
         async def refresh_active() -> None:
             """Wait for module to be mounted before making active."""
             await mount_await
-            new_tab = Tab(moduleid, id=moduleid)
+            new_tab = ImprovedTab(moduleid, id=moduleid)
             module_tabs = self.query_one("#module_tabs")
             module_tabs.focus()
             module_tabs.add_tab(new_tab)
@@ -48,8 +48,8 @@ class HostContainer(Vertical):
         with Horizontal(classes="menu_bar"):
             yield MenuButton(" + ", id="add_module_button", classes="menu_button")
             yield ImprovedTabs(
-                Tab("nmap", id="nmap"),
-                Tab("dirscan", id="dirscan"),
+                ImprovedTab("nmap", id="nmap"),
+                ImprovedTab("dirscan", id="dirscan"),
                 id="module_tabs", classes="module_tabs",
             )
         yield MenuList(
@@ -81,7 +81,7 @@ class HostInput(Static):
     def add_host(self, ip) -> None:
         ipid = "ip" + ip.replace(".", "-")
         #host_tabs = self.parent.query_one("#host_tabs")
-        #host_tabs.add_tab(Tab(ip, id=ipid))
+        #host_tabs.add_tab(ImprovedTab(ip, id=ipid))
         new_container = HostContainer(id=ipid, classes="modules_container")
         # host_switcher = self.parent.query_one("#host_switcher")
         # host_switcher.mount(new_container)
@@ -92,7 +92,7 @@ class HostInput(Static):
         async def refresh_active() -> None:
             """Wait for module to be mounted before making active."""
             await mount_await
-            new_tab = Tab(ip, id=ipid)
+            new_tab = ImprovedTab(ip, id=ipid)
             host_tabs = self.parent.query_one("#host_tabs")
             host_tabs.focus()
             host_tabs.add_tab(new_tab)
@@ -173,8 +173,8 @@ class FeetApp(App):
                 yield Button("Network", id="network_menu_button", classes="menu_button")
                 yield Button(" + ", id="add_host_button", classes="menu_button")
                 yield ImprovedTabs(
-                    Tab("192.168.0.11", id="ip192-168-0-11"),
-                    Tab("192.168.0.12", id="ip192-168-0-12"),
+                    ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
+                    ImprovedTab("192.168.0.12", id="ip192-168-0-12"),
                     id="host_tabs",
                 )
             yield MenuList(

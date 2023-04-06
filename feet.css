@@ -52,7 +52,7 @@ ListView {
 .menu_button {
     border: none;
     background: #001eff;
-    height: 3;
+    /* height: 3; */
     width: auto;
 }
 
@@ -77,8 +77,8 @@ ListView {
 }
 
 Tabs {
-    margin-top: -1;
-    height: 3;
+    /* margin-top: -1; */
+    /* height: 3; */
 }
 
 .title {
