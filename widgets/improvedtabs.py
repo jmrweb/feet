@@ -3,15 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 
 from textual.app import ComposeResult
-from textual import events
-from textual import log
 from textual.containers import Horizontal
 from textual.message import Message
-from textual.widgets import Button, Label, ListItem, Static, Tabs, Tab
-from rich.text import Text, TextType
+from textual.widgets import Tabs, Tab
+from rich.text import Text
 
 
-from widgets.menubutton import MenuButton
 from widgets.tabclosebutton import TabCloseButton
 from widgets.tablabel import TabLabel
 
@@ -20,19 +17,6 @@ print('Running' if __name__ == '__main__' else 'Importing', Path(__file__).resol
 class ImprovedTab(Tab):
     """Add improved functionality to the ImprovedTab widget."""
 
-    # ImprovedTab.-active {
-    #     text-style: bold;
-    #     color: $text;
-    # }
-    
-    # ImprovedTab:hover {
-    #     text-style: bold;
-    # }
-    
-    # ImprovedTab.-active:hover {
-    #     color: $text;
-    # }
-    
     DEFAULT_CSS = """
 
     ImprovedTab {
@@ -112,11 +96,11 @@ class ImprovedTab(Tab):
     def on_click(self):
         pass
 
-    def on_tab_close_button_clicked(self, message: TabCloseButton.Clicked):
+    def on_tab_close_button_clicked(self) -> None:
         """Inform the message that the TabCloseButton was clicked."""
         self.post_message(self.CloseTab(self))
 
-    def on_tab_label_clicked(self, message: TabLabel.Clicked) -> None:
+    def on_tab_label_clicked(self) -> None:
         """Inform the message that the tab was clicked."""
         self.post_message(self.Clicked(self))
 
@@ -159,6 +143,25 @@ class ImprovedTabs(Tabs):
         background: $foreground 20%;
     }
     """
+
+    class TabRemoved(Message):
+        # Message posted when A Tab is removed.
+
+        tabs: Tabs
+        """The tabs widget containing the tab."""
+        tab: Tab
+        """The tab that was activated."""
+
+        def __init__(self, tabs: Tabs, tab: Tab) -> None:
+            """Initialize event.
+
+            Args:
+                tabs: The Tabs widget.
+                tab: The tab that was activated.
+            """
+            self.tabs = tabs
+            self.tab = tab
+            super().__init__()
 
     def add_tab(self, tab: ImprovedTab | str | Text) -> None:
         """Add a new tab to the end of the tab list.
@@ -206,6 +209,7 @@ class ImprovedTabs(Tabs):
     def on_improved_tab_close_tab(self, message: ImprovedTab.CloseTab) -> None:
         """Handle the tab being closed."""
         self.remove_tab(message.tab.id)
+        self.post_message(self.TabRemoved(self, message.tab))
 
     # def remove_tab(self, tab_or_id: ImprovedTab | str | None) -> None:
     #     """Remove a tab.
