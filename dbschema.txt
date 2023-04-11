@@ -1,0 +1,32 @@
+hosts (set) (sorted?)
+    ip 1
+    ip 2
+    ...
+
+host:ip (hash)
+    hostname = 
+    ip = 
+    os =
+    
+    ip:ports (set)
+        port1
+        port2
+        ...
+
+    ip:port (hash)
+        service =
+        port specific field 1 =
+        port specific field 2 =
+
+    ip:credentials
+        full 
+            known associated services
+        users
+            known associated services
+        passwords
+            known assocaited services
+    
+
+create tags using sets
+    - https://redis.io/docs/data-types/tutorial/
+    

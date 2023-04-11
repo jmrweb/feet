@@ -1,5 +1,7 @@
 import sys
 import types
+import redis
+from feetdb import FeetDB
 
 from rich.console import RenderableType
 
@@ -34,6 +36,7 @@ class HostContainer(Vertical):
     ) -> None:
         super().__init__(name=name, id=id, classes=classes, disabled=disabled)
         self.modules = []
+        self.db = FeetDB()
 
     def add_module(self, module_name: str) -> None:
         """Add a specified module to the host container."""
@@ -42,7 +45,7 @@ class HostContainer(Vertical):
         module = __import__("modules")
         module = getattr(module, module_name)
         module_ = getattr(module, module_name.capitalize())
-        new_module = module_(module_name, id=module_name, classes="module")
+        new_module = module_(module_name, id=module_name, classes="module", db=self.db, host=self.name)
         #new_module = Placeholder(moduleid, id=moduleid, classes="module")
         # module_switcher = self.query_one("#module_switcher")
         # mount_await = module_switcher.mount(new_module)
@@ -75,8 +78,8 @@ class HostContainer(Vertical):
         with Horizontal(classes="menu_bar"):
             yield MenuButton(" + ", id="add_module_button", classes="menu_button")
             yield ImprovedTabs(
-                ImprovedTab("nmap", id="nmap"),
-                ImprovedTab("dirscan", id="dirscan"),
+                # ImprovedTab("nmap", id="nmap"),
+                # ImprovedTab("dirscan", id="dirscan"),
                 id="module_tabs", classes="module_tabs",
             )
         yield MenuList(           
@@ -130,12 +133,22 @@ class HostInput(Static):
         disabled: bool = False,
     ) -> None:
         super().__init__(renderable=renderable, expand=expand, shrink=shrink, markup=markup, name=name, id=id, classes=classes, disabled=disabled)
+        self.db = FeetDB()
 
     def add_host(self, ip) -> None:
+        """ Add a new host to tab and container to the application and create entry for host in database."""
+
+        # Add host to database
+        self.db.conn.sadd('hosts', ip)
+        self.db.conn.hset('host:'+ip, mapping={
+            'hostname': 'None',
+            'os': 'None',
+        })
+
         ipid = "ip" + ip.replace(".", "-")
         #host_tabs = self.parent.query_one("#host_tabs")
         #host_tabs.add_tab(ImprovedTab(ip, id=ipid))
-        new_container = HostContainer(id=ipid, classes="modules_container")
+        new_container = HostContainer(name=ip, id=ipid, classes="modules_container")
         # host_switcher = self.parent.query_one("#host_switcher")
         # host_switcher.mount(new_container)
         #host_tabs.active = ipid
@@ -217,8 +230,8 @@ class FeetApp(App):
                 yield Button("Network", id="network_menu_button", classes="menu_button")
                 yield Button(" + ", id="add_host_button", classes="menu_button")
                 yield ImprovedTabs(
-                    ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
-                    ImprovedTab("192.168.0.12", id="ip192-168-0-12"),
+                    # ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
+                    # ImprovedTab("192.168.0.12", id="ip192-168-0-12"),
                     id="host_tabs",
                 )
             yield MenuList(
@@ -237,9 +250,9 @@ class FeetApp(App):
             #     ListItem(Label("192.168.255.255/24")),
             #     initial_index=None, id="network_menu_list",
             # )
-            with ContentSwitcher(id="host_switcher"):
-                yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
-                yield HostContainer(id="ip192-168-0-12", classes="modules_container")#, modules=self.modules)
+            yield ContentSwitcher(id="host_switcher")
+                # yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
+                # yield HostContainer(id="ip192-168-0-12", classes="modules_container")#, modules=self.modules)
         yield Footer()
         #yield widgetselector.Widgetselector(self.widgets)
         #yield Container(widgetselector.Widgetselector(), id="container_main")
@@ -345,6 +358,18 @@ class FeetApp(App):
     # get list of imported modules
     #modules = list(get_modules())
     # print(f"modules: [/] {modules}")
+
+    # Connect to redis database
+    db = FeetDB()
+    db.conn.set("foo", "bar")
+    test = db.conn.get("foo")
+    log(f"[bold_red]Redis: [/] {test}")
+    # r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+    # r.set('foo', 'bar')
+    # True
+    # bartest = r.get('foo')
+    # bar
+    # log(f"[bold_red]Redis: [/] {bartest}")
 
 if __name__ == "__main__":
 

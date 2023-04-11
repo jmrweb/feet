@@ -96,6 +96,35 @@ Textual notes
     - Decent documentation but not widely used
         - very little in the way of searchable help online
 
+Redis Notes:
+    Quick=start/basic management
+        - https://www.tutorialspoint.com/redis/redis_quick_guide.htm
+    Command Lookup
+        - https://redis.io/commands/?group=hash
+    Redis-py
+        - https://github.com/redis/redis-py
+    Connection Examples
+        - https://redis.readthedocs.io/en/stable/examples.html
+    Securing Redis
+        - https://redis.io/docs/getting-started/
+        - https://redis.io/docs/management/security/
+    Persistence
+        - https://redis.io/docs/getting-started/
+        - https://redis.io/docs/management/persistence/
+    Install redis more properly
+        - add init script to start redis server? create location to store data?
+            - can this be done on application launch?
+        - https://redis.io/docs/getting-started/
+    Database export/import
+        - https://support.huaweicloud.com/intl/en-us/migration-dcs/dcs-migration-0312011.html
+    Iterate over Keyspace
+        - https://redis.io/commands/scan/
+
+    Redis background:
+        - Faq
+            - https://redis.io/docs/getting-started/faq/
+        - "Using redis"
+            - https://redis.io/docs/manual/
     
 
     

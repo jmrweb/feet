@@ -1,10 +1,11 @@
 from pathlib import Path
 from textual.widgets import Static
+from feetmodule import FeetModule
 
 print('Running' if __name__ == '__main__' else 'Importing', Path(__file__).resolve())
 
 
-class Basicwidget(Static):
+class Basicwidget(FeetModule):
     """Display a basic text box"""
 
     DEFAULT_CSS = """
