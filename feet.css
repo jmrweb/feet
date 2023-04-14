@@ -4,7 +4,7 @@ Screen {
     layers: one two three;
 }
 
-#add_module_list {
+#module_list {
     layer: three;
     width: 8;
     offset: 0 1;
@@ -25,6 +25,10 @@ HostInput {
 #ip_switcher {
     layout: vertical;
 }
+
+/* HostContainer {
+    height: auto;
+} */
 
 #host_tabs {
     background: #0026ff;

@@ -3,29 +3,67 @@ hosts (set) (sorted?)
     ip 2
     ...
 
-host:ip (hash)
+host:{ip} (hash)
+    ip =
     hostname = 
-    ip = 
     os =
+    network = 
+    domain_name = 
     
-    ip:ports (set)
+    {ip}:ports (set)
         port1
         port2
         ...
 
-    ip:port (hash)
-        service =
-        port specific field 1 =
+    {ip}:{port} (hash)
+        protocol =
+        port specific field 1 =     # i.e. credentials =
         port specific field 2 =
 
-    ip:credentials
-        full 
-            known associated services
-        users
-            known associated services
-        passwords
-            known assocaited services
-    
+    {ip}:credentials
+    {ip}:users
+    {ip}:passwords
+
+    {ip}:virtualhosts
+
+    {ip}:directories
+
+    {ip}:smb_shares
+
+modules
+    main?
+    port_scan
+    ftp
+    ssh
+    telnet
+    http
+
+modules:ftp
+
+    associated_service: ftp
+    common_port: 21
+    tags?
+
+modules:ftp:tagged_variables
+
+    {proto} = ftp
+    {ip}:credentials
+
+modules:http:tagged_variables
+
+    {proto} = http
+    {port} = 80
+    {}
+
+tags:http
+
+    ?
+
+
+
+
+
+
 
 create tags using sets
     - https://redis.io/docs/data-types/tutorial/

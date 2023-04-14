@@ -18,6 +18,7 @@ class Hostinfo(FeetModule):
     """
 
     def on_mount(self) -> None:
+        """Called when the module is mounted to the app"""
 
         #Set window title
         self.border_title = "Host Information"

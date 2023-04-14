@@ -89,9 +89,9 @@ class HostContainer(Vertical):
             # ListItem(Label("wpscan"), id="wpscan"),
             initial_index=None, id="module_list"
         )
-        with ContentSwitcher(id="module_switcher"):
-            yield Placeholder("nmap", id="nmap", classes="module")
-            yield Placeholder("dirscan", id="dirscan", classes="module")
+        yield ContentSwitcher(id="module_switcher")
+            # yield Placeholder("nmap", id="nmap", classes="module")
+            # yield Placeholder("dirscan", id="dirscan", classes="module")
 
     def on_mount(self) -> None:
         """Called when the widget is mounted."""
@@ -230,7 +230,7 @@ class FeetApp(App):
                 yield Button("Network", id="network_menu_button", classes="menu_button")
                 yield Button(" + ", id="add_host_button", classes="menu_button")
                 yield ImprovedTabs(
-                    # ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
+                    ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
                     # ImprovedTab("192.168.0.12", id="ip192-168-0-12"),
                     id="host_tabs",
                 )
@@ -250,8 +250,8 @@ class FeetApp(App):
             #     ListItem(Label("192.168.255.255/24")),
             #     initial_index=None, id="network_menu_list",
             # )
-            yield ContentSwitcher(id="host_switcher")
-                # yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
+            with ContentSwitcher(id="host_switcher"):
+                yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
                 # yield HostContainer(id="ip192-168-0-12", classes="modules_container")#, modules=self.modules)
         yield Footer()
         #yield widgetselector.Widgetselector(self.widgets)
@@ -361,15 +361,10 @@ class FeetApp(App):
 
     # Connect to redis database
     db = FeetDB()
-    db.conn.set("foo", "bar")
-    test = db.conn.get("foo")
-    log(f"[bold_red]Redis: [/] {test}")
-    # r = redis.Redis(host='localhost', port=6379, decode_responses=True)
-    # r.set('foo', 'bar')
-    # True
-    # bartest = r.get('foo')
-    # bar
-    # log(f"[bold_red]Redis: [/] {bartest}")
+    # db.conn.set("foo", "bar")
+    # test = db.conn.get("foo")
+    # log(f"[bold_red]Redis: [/] {test}")
+
 
 if __name__ == "__main__":
 

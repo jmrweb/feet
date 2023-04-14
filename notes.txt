@@ -91,10 +91,21 @@ Challenges
                         - Extend Tabs with ImprovedTabs
                             - Modify add_tab to move switching to new tab into aysnc refresh_active() function, forcing it to wait for the content pane to be mounted first.
 
+        Challenge: Displaying terminal output
+            Solution:
+                - Utilize textlog widget
+                - Execute commands with python subprocess
+                    - Read command line by line
+                        - https://stackoverflow.com/questions/28993712/read-shell-output-from-python-line-by-line
+                - Update in realtime through reactive attributes
+                    - https://textual.textualize.io/tutorial/#reactive-attributes
+
 
 Textual notes
     - Decent documentation but not widely used
         - very little in the way of searchable help online
+    - In active development
+        - New widgets/functionality dropping during reasearch
 
 Redis Notes:
     Quick=start/basic management
