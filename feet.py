@@ -78,20 +78,12 @@ class HostContainer(Vertical):
         with Horizontal(classes="menu_bar"):
             yield MenuButton(" + ", id="add_module_button", classes="menu_button")
             yield ImprovedTabs(
-                # ImprovedTab("nmap", id="nmap"),
-                # ImprovedTab("dirscan", id="dirscan"),
                 id="module_tabs", classes="module_tabs",
             )
         yield MenuList(           
-            # ListItem(Label("dirscan"), id="dirscan"),
-            # ListItem(Label("ffuf"), id="ffuf"),
-            # ListItem(Label("nmap"), id="nmap"),
-            # ListItem(Label("wpscan"), id="wpscan"),
             initial_index=None, id="module_list"
         )
         yield ContentSwitcher(id="module_switcher")
-            # yield Placeholder("nmap", id="nmap", classes="module")
-            # yield Placeholder("dirscan", id="dirscan", classes="module")
 
     def on_mount(self) -> None:
         """Called when the widget is mounted."""
