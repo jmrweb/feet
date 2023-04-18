@@ -1,28 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.80 scan initiated Mon Apr 17 22:45:15 2023 as: nmap -p- -n -oX 10.10.10.10_nmap.xml 127.0.0.1 -->
-<nmaprun scanner="nmap" args="nmap -p- -n -oX 10.10.10.10_nmap.xml 127.0.0.1" start="1681771515" startstr="Mon Apr 17 22:45:15 2023" version="7.80" xmloutputversion="1.04">
+<!-- Nmap 7.80 scan initiated Tue Apr 18 22:43:35 2023 as: nmap -p- -n -oX 10.10.10.10_nmap.xml 127.0.0.1 -->
+<nmaprun scanner="nmap" args="nmap -p- -n -oX 10.10.10.10_nmap.xml 127.0.0.1" start="1681857815" startstr="Tue Apr 18 22:43:35 2023" version="7.80" xmloutputversion="1.04">
 <scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
 <verbose level="0"/>
 <debugging level="0"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="3.69" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="4.30" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="5.68" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="7.20" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="9.49" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="10.86" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="12.77" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="14.53" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="16.13" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="17.88" remaining="0" etc="1681771515"/>
-<taskprogress task="Connect Scan" time="1681771515" percent="19.64" remaining="0" etc="1681771515"/>
-<host starttime="1681771515" endtime="1681771517"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<host starttime="1681857815" endtime="1681857816"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="127.0.0.1" addrtype="ipv4"/>
 <hostnames>
 </hostnames>
-<ports><extraports state="closed" count="65523">
-<extrareasons reason="conn-refused" count="65523"/>
+<ports><extraports state="closed" count="65524">
+<extrareasons reason="conn-refused" count="65524"/>
 </extraports>
 <port protocol="tcp" portid="2000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cisco-sccp" method="table" conf="3"/></port>
 <port protocol="tcp" portid="2222"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="EtherNetIP-1" method="table" conf="3"/></port>
@@ -32,13 +21,12 @@
 <port protocol="tcp" portid="8081"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="blackice-icecap" method="table" conf="3"/></port>
 <port protocol="tcp" portid="16634"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 <port protocol="tcp" portid="16635"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="33259"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="35243"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="35593"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="unknown" method="table" conf="3"/></port>
-<port protocol="tcp" portid="38241"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="36741"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="37163"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="43401"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 </ports>
-<times srtt="77" rttvar="80" to="100000"/>
+<times srtt="111" rttvar="81" to="100000"/>
 </host>
-<runstats><finished time="1681771517" timestr="Mon Apr 17 22:45:17 2023" elapsed="2.49" summary="Nmap done at Mon Apr 17 22:45:17 2023; 1 IP address (1 host up) scanned in 2.49 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+<runstats><finished time="1681857817" timestr="Tue Apr 18 22:43:37 2023" elapsed="1.34" summary="Nmap done at Tue Apr 18 22:43:37 2023; 1 IP address (1 host up) scanned in 1.34 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
 </runstats>
 </nmaprun>

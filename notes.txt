@@ -100,6 +100,35 @@ Challenges
                 - Update in realtime through reactive attributes
                     - https://textual.textualize.io/tutorial/#reactive-attributes
 
+        Challenge: Save and load session
+    
+    Challenge: Database
+        Solution:
+            - Redis
+            Challenge: Run Redis server in background
+                Solution:
+                - Open with subprocess.Popen
+                - https://stackoverflow.com/questions/1196074/how-to-start-a-background-process-in-python
+            Challenge: Monitor changes to keys and values in real timer
+                Solution:
+                - keyspace notifications
+                    - enable notifications with (or in /etc/redis/redis.conf)
+                    - subscribe to 'channel' or pattern for desired keys
+                    - 
+                - https://redis.io/docs/manual/keyspace-notifications/
+                - https://github.com/redis/redis-py
+                - https://tech.webinterpret.com/redis-notifications-python/
+                - https://medium.com/nerd-for-tech/redis-getting-notified-when-a-key-is-expired-or-changed-ca3e1f1c7f0a
+            Challenge: Close database Connection/Shutdown server
+                Solution:
+                - shutdown command
+                    - confirm shutdown with `pgrep redis-server`
+            Challenge: Clear database
+                Solution:
+                - flushall command
+        
+
+
 
 Textual notes
     - Decent documentation but not widely used
@@ -136,6 +165,14 @@ Redis Notes:
             - https://redis.io/docs/getting-started/faq/
         - "Using redis"
             - https://redis.io/docs/manual/
+
+    Check Databases and db Keyspace
+        - CONFIG GET databases
+        - INFO keyspace
+        - https://stackoverflow.com/questions/12802726/how-to-list-all-redis-databases
+    Check DB connection info
+        - CLIENT INFO
+        - https://redis.io/commands/client-info/
     
 
     

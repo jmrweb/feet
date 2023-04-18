@@ -132,10 +132,12 @@ class HostInput(Static):
 
         # Add host to database
         self.db.conn.sadd('hosts', ip)
-        self.db.conn.hset('host:'+ip, mapping={
-            'hostname': 'None',
-            'os': 'None',
-        })
+        if not self.db.conn.exists('host:'+ip):
+            self.db.conn.hset('host:'+ip, mapping={
+                'hostname': 'None',
+                'ip': ip,
+                'os': 'None',
+            })
 
         ipid = "ip" + ip.replace(".", "-")
         #host_tabs = self.parent.query_one("#host_tabs")
@@ -170,6 +172,7 @@ class HostInput(Static):
         # Called when the widget is mounted
         self.border_title = "Add Host"
         self.visible = False
+        self.add_host("192.168.0.1")
 
 
 class FeetApp(App):
@@ -188,24 +191,24 @@ class FeetApp(App):
     #        if isinstance(val, types.ModuleType):
     #            yield val.__name__
 
-    tabbed_containers: dict
+    # tabbed_containers: dict
  
-    def get_imported_modules(self) -> None:
-        """Add imported modules to the container"""
-        for module in self.modules:
-            self.add_imported_module(module)
+    # def get_imported_modules(self) -> None:
+    #     """Add imported modules to the container"""
+    #     for module in self.modules:
+    #         self.add_imported_module(module)
 
-    def action_remove_imported_widget(self, widget_name: str) -> None:
-        """Remove a widget from the container"""
-        widget = getattr(sys.modules[__name__], widget_name)()
-        self.query_one("widgets").unmount(widget)
+    # def action_remove_imported_widget(self, widget_name: str) -> None:
+    #     """Remove a widget from the container"""
+    #     widget = getattr(sys.modules[__name__], widget_name)()
+    #     self.query_one("widgets").unmount(widget)
 
-    def action_remove_tab(self) -> None:
-        """Remove active tab."""
-        tabs = self.query_one("#module_tabs")
-        active_tab = tabs.active_tab
-        if active_tab is not None:
-            tabs.remove_tab(active_tab.id)
+    # def action_remove_tab(self) -> None:
+    #     """Remove active tab."""
+    #     tabs = self.query_one("#module_tabs")
+    #     active_tab = tabs.active_tab
+    #     if active_tab is not None:
+    #         tabs.remove_tab(active_tab.id)
 
     # def get_modules() -> list:
     #     for name, val in globals().items():
@@ -222,7 +225,7 @@ class FeetApp(App):
                 yield Button("Network", id="network_menu_button", classes="menu_button")
                 yield Button(" + ", id="add_host_button", classes="menu_button")
                 yield ImprovedTabs(
-                    ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
+                    # ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
                     # ImprovedTab("192.168.0.12", id="ip192-168-0-12"),
                     id="host_tabs",
                 )
@@ -242,8 +245,8 @@ class FeetApp(App):
             #     ListItem(Label("192.168.255.255/24")),
             #     initial_index=None, id="network_menu_list",
             # )
-            with ContentSwitcher(id="host_switcher"):
-                yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
+            yield ContentSwitcher(id="host_switcher")
+                # yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
                 # yield HostContainer(id="ip192-168-0-12", classes="modules_container")#, modules=self.modules)
         yield Footer()
         #yield widgetselector.Widgetselector(self.widgets)
@@ -299,6 +302,10 @@ class FeetApp(App):
         log(f"[bold_red]on_list_view_selected: [/] {event.item.id}")
 
         if event.item.id == "Exit":
+            # for timer in self.query("Timer"):
+            #     log(f"[bold_red]on_list_view_selected: [/] Removing Timer: {timer.name}")
+            #     timer.stop()
+            self.db.close()
             exit()
         elif event.item.parent.id == "module_list":
             event.item.parent.parent.add_module(event.item.id)
@@ -335,7 +342,6 @@ class FeetApp(App):
             host_switcher.current = None
             child = host_switcher.get_child_by_id(message.tab.id)
             child.remove()
-            #child = host_switcher.get_child_by_id(message.tab.id)
             #log(f"[bold_red]on_improved_tabs_tab_removed: [/] Child: {child.id}")
         #     self.query_one("#host_switcher").remove(message.tab.id)
         elif message.tabs.id == "module_tabs":
@@ -353,6 +359,7 @@ class FeetApp(App):
 
     # Connect to redis database
     db = FeetDB()
+
     # db.conn.set("foo", "bar")
     # test = db.conn.get("foo")
     # log(f"[bold_red]Redis: [/] {test}")

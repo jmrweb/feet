@@ -3,11 +3,11 @@ import jc
 
 from textual.app import ComposeResult
 from textual.reactive import reactive
-from textual.widgets import TextLog
+from textual.widgets import Static, TextLog
 from feetmodule import FeetModule
 
 class Portscan(FeetModule):
-    """Display a basic text box"""
+    """Run port scans against a host, show output in a text_box, and parse output to db."""
 
     DEFAULT_CSS = """
     Portscan {
@@ -20,38 +20,41 @@ class Portscan(FeetModule):
         border_title_align: center;
         content-align: center middle;
     }
+
+    #options {
+        padding: 0 0;
+        background: $panel;
+        color: $text;
+        border: $secondary hkey;
+        border_title_align: center;
+        content-align: center middle;
+    }
+
+    #output_log {
+        padding: 0 0;
+        background: $panel;
+        color: $text;
+        border: $secondary hkey;
+        border_title_align: center;
+        content-align: center middle;
+    }
     """
 
-    _output = reactive("")
+    #_output = reactive("")
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._running_cmd = False
-        self._running_scan = False
         self._process = None
         self.text_log = None
-        self.update_timer = self.set_interval(1/60, self.update__output, pause=True)
+        self.output = ""
+        self.update_timer = self.set_interval(1/60, self.update_output, pause=True)
 
 
     def compose(self) -> ComposeResult:
-        yield TextLog(highlight=True, markup=False)
+        yield Static("Options", id='options')
+        yield TextLog(id='output_log', highlight=True, markup=False)
 
-    def parse_output(self):
-        """Parse output from nmap scan"""
-        xml_file = open(f"{self.host}_nmap.xml", "r")
-        xml = xml_file.read()
-        xml_file.close()
-        data = jc.parse('xml', xml)
-
-        self.text_log.write("Parsed Output")
-        # self.text_log.write(data['nmaprun']['host']['ports']['port'])
-        for port in data['nmaprun']['host']['ports']['port']:
-            self.text_log.write(" ")
-            self.text_log.write("Port: " + port['@portid'])
-            self.text_log.write("Protocol: " + port['@protocol'])
-            self.text_log.write("Service: " + port['service']['@name'])
-            self.text_log.write("State: " + port['state']['@state'])
-        
 
     def on_mount(self) -> None:
         """Called when the module is mounted to the app"""
@@ -60,18 +63,39 @@ class Portscan(FeetModule):
         self.text_log = self.query_one(TextLog)
 
         #Set window title
-        self.border_title = "Output Log"
+        self.border_title = 'Port Scanner'
+        self.query_one('#options').border_title = 'Options'
+        self.query_one('#output_log').border_title = 'Output Log'
 
-        # Print test data
-        # text_log = self.query_one(TextLog)
-        # cmd = ["cat", "/etc/passwd"]
-        # proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, universal_newlines=True)
-        # for line in proc.stdout:
-        #     text_log.write(line)
-        # text_log.write("[bold magenta]Write text or any Rich renderable!")
 
         cmd = ["nmap", "-p-", "-n", "127.0.0.1", "-oX", f"{self.host}_nmap.xml"]
         self.run_command(cmd)
+
+
+    def parse_output(self):
+        """Parse output from nmap scan"""
+
+        # parse xml to json
+        xml_file = open(f"{self.host}_nmap.xml", "r")
+        xml = xml_file.read()
+        xml_file.close()
+        data = jc.parse('xml', xml)
+
+        #parse json to db
+        for port in data['nmaprun']['host']['ports']['port']:
+            # self.text_log.write(" ")
+            self.db.conn.sadd(self.host + ':ports', port['@portid'])
+            self.db.conn.hset(self.host + ':' + port['@portid'], mapping={'protocol': port['@protocol']})
+            
+            #self.text_log.write("Protocol: " + port['@protocol'])
+            if 'service' not in port:
+                pass
+            else:
+                #self.text_log.write("Service: " + port['service']['@name'])
+                self.db.conn.hset(self.host + ':' + port['@portid'], mapping={'service': port['service']['@name']})
+            #self.text_log.write("State: " + port['state']['@state'])
+            self.db.conn.hset(self.host + ':' + port['@portid'], mapping={'state': port['state']['@state']})
+
 
     def run_command(self, cmd: str):
         """Start process for a cli command"""
@@ -93,17 +117,21 @@ class Portscan(FeetModule):
         # rc = process.poll()
         # return rc
 
-    def update__output(self) -> None:
+
+    def update_output(self) -> None:
         """Called on a set interval to update command output"""
 
-        if len(self._output) == 0 and self._process.poll() is not None:
+        #if len(self.output) == 0 and self._process.poll() is not None:
+        if len(self.output) == 0 and self._process.poll() is not None:
             self.text_log.write("Command finished.")
             self.update_timer.pause()
 
             self.parse_output()
         else:
-            self._output = self._process.stdout.readline()
+            self.output = self._process.stdout.readline()
+            self.text_log.write(str(self.output)[2:-3])
 
-    def watch__output(self, output: str) -> None:
-        """Called when the command output updates"""
-        self.text_log.write(str(output)[2:-3])
+
+    # def watch_output(self, output: str) -> None:
+    #     """Called when the command output updates"""
+    #     self.text_log.write(str(output)[2:-3])

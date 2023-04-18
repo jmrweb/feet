@@ -1,4 +1,7 @@
+import subprocess
+
 import redis
+
 
 class Singleton(type):
     """ A metaclass for singleton purpose. Every singleton class should inherit from this class by 'metaclass=Singleton'. """
@@ -14,8 +17,20 @@ class FeetDB(metaclass=Singleton):
     """Singleton class for redis database"""
 
     def __init__(self):
-        self.r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+        self.db = subprocess.Popen("redis-server")
+        self.dbindex = 0
+        self.r = redis.Redis(host='localhost', port=6379, decode_responses=True, db=self.dbindex)
+        self.r.config_set('notify-keyspace-events', 'KEA')
+        
 
     @property
-    def conn(self):
+    def conn(self) -> redis.Redis:
+        """Return redis connection"""
         return self.r
+    
+
+    def close(self) -> None:
+        """Soft shutdown of redis server"""
+        self.r.flushdb()
+        #self.r.shutdown()
+        # self.db.kill()
