@@ -1,31 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.80 scan initiated Tue Apr 18 22:53:57 2023 as: nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1 -->
-<nmaprun scanner="nmap" args="nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1" start="1681858437" startstr="Tue Apr 18 22:53:57 2023" version="7.80" xmloutputversion="1.04">
+<!-- Nmap 7.80 scan initiated Wed Apr 19 23:30:34 2023 as: nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1 -->
+<nmaprun scanner="nmap" args="nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1" start="1681947034" startstr="Wed Apr 19 23:30:34 2023" version="7.80" xmloutputversion="1.04">
 <scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
 <verbose level="0"/>
 <debugging level="0"/>
-<taskprogress task="Connect Scan" time="1681858437" percent="48.25" remaining="0" etc="1681858437"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="49.47" remaining="2" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="50.84" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="52.52" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="54.51" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="55.57" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="56.34" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="57.25" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="59.24" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="61.14" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="62.97" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="64.58" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="66.41" remaining="1" etc="1681858439"/>
-<taskprogress task="Connect Scan" time="1681858438" percent="68.31" remaining="1" etc="1681858438"/>
-<host starttime="1681858437" endtime="1681858439"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<host starttime="1681947034" endtime="1681947036"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="127.0.0.1" addrtype="ipv4"/>
 <hostnames>
 </hostnames>
-<ports><extraports state="closed" count="65524">
-<extrareasons reason="conn-refused" count="65524"/>
+<ports><extraports state="closed" count="65523">
+<extrareasons reason="conn-refused" count="65523"/>
 </extraports>
 <port protocol="tcp" portid="2000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cisco-sccp" method="table" conf="3"/></port>
 <port protocol="tcp" portid="2222"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="EtherNetIP-1" method="table" conf="3"/></port>
@@ -35,12 +21,13 @@
 <port protocol="tcp" portid="8081"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="blackice-icecap" method="table" conf="3"/></port>
 <port protocol="tcp" portid="16634"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 <port protocol="tcp" portid="16635"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="36741"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="37163"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="43401"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="32857"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="33711"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="34763"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="45787"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 </ports>
-<times srtt="122" rttvar="83" to="100000"/>
+<times srtt="86" rttvar="94" to="100000"/>
 </host>
-<runstats><finished time="1681858439" timestr="Tue Apr 18 22:53:59 2023" elapsed="1.83" summary="Nmap done at Tue Apr 18 22:53:59 2023; 1 IP address (1 host up) scanned in 1.83 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+<runstats><finished time="1681947036" timestr="Wed Apr 19 23:30:36 2023" elapsed="2.45" summary="Nmap done at Wed Apr 19 23:30:36 2023; 1 IP address (1 host up) scanned in 2.45 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
 </runstats>
 </nmaprun>

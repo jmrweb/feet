@@ -84,17 +84,17 @@ class Portscan(FeetModule):
         #parse json to db
         for port in data['nmaprun']['host']['ports']['port']:
             # self.text_log.write(" ")
-            self.db.conn.sadd(self.host + ':ports', port['@portid'])
-            self.db.conn.hset(self.host + ':' + port['@portid'], mapping={'protocol': port['@protocol']})
+            self.db.conn.sadd(self.host + ':ports:index', port['@portid'])
+            self.db.conn.hset(self.host + ':ports:' + port['@portid'], mapping={'protocol': port['@protocol']})
             
             #self.text_log.write("Protocol: " + port['@protocol'])
             if 'service' not in port:
                 pass
             else:
                 #self.text_log.write("Service: " + port['service']['@name'])
-                self.db.conn.hset(self.host + ':' + port['@portid'], mapping={'service': port['service']['@name']})
+                self.db.conn.hset(self.host + ':ports:' + port['@portid'], mapping={'service': port['service']['@name']})
             #self.text_log.write("State: " + port['state']['@state'])
-            self.db.conn.hset(self.host + ':' + port['@portid'], mapping={'state': port['state']['@state']})
+            self.db.conn.hset(self.host + ':ports:' + port['@portid'], mapping={'state': port['state']['@state']})
 
 
     def run_command(self, cmd: str):

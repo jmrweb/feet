@@ -132,8 +132,8 @@ class HostInput(Static):
 
         # Add host to database
         self.db.conn.sadd('hosts', ip)
-        if not self.db.conn.exists('host:'+ip):
-            self.db.conn.hset('host:'+ip, mapping={
+        if not self.db.conn.exists(f'{ip}:general'):
+            self.db.conn.hset(f'{ip}:general', mapping={
                 'hostname': 'None',
                 'ip': ip,
                 'os': 'None',

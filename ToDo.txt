@@ -3,3 +3,5 @@ Move db index to config file?
 
 Name redis db for easy reference on a machine runnign multiple Redis DBs?
     - `r = redis.Redis(host='localhost', port=6379, db=0)`
+
+Gracefully start and shutdown redis
