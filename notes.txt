@@ -102,30 +102,63 @@ Challenges
 
         Challenge: Save and load session
     
-    Challenge: Database
-        Solution:
-            - Redis
-            Challenge: Run Redis server in background
-                Solution:
-                - Open with subprocess.Popen
-                - https://stackoverflow.com/questions/1196074/how-to-start-a-background-process-in-python
-            Challenge: Monitor changes to keys and values in real timer
-                Solution:
-                - keyspace notifications
-                    - enable notifications with (or in /etc/redis/redis.conf)
-                    - subscribe to 'channel' or pattern for desired keys
-                    - 
-                - https://redis.io/docs/manual/keyspace-notifications/
-                - https://github.com/redis/redis-py
-                - https://tech.webinterpret.com/redis-notifications-python/
-                - https://medium.com/nerd-for-tech/redis-getting-notified-when-a-key-is-expired-or-changed-ca3e1f1c7f0a
-            Challenge: Close database Connection/Shutdown server
-                Solution:
-                - shutdown command
-                    - confirm shutdown with `pgrep redis-server`
-            Challenge: Clear database
-                Solution:
-                - flushall command
+    hostinfo widget
+        Challenge: How to display
+            Solution:
+                - Tree Widget
+                Challenge: how to update
+                    Solution:
+                        - update_timer to check database for changes 60 times a second
+                            - use redis pub.dub to check for keyspace notications (see Database)
+                            - update tree when monitored keys/values are changed
+                            Challenge: How to update tree efficiently
+                                - Can reload entire tree from scratch but is slow
+                                - Tree widget does not have functions for searching/updating existing branches/leaves
+                                - How can you target and update indiviudal branches/leaves?
+                                Solution:
+                                    - Iterate over tree with treenode.children
+                                    - Update child.label with new data
+                                    Challenge: Updating children and adding new content simlutaneously
+                                        - redis hash datatypes have multiple fields with each one generating a leaf node for a single branch
+                                        - keyspace notifications do not indication which field has be updated, just the key for the entire hash
+                                        - updating the tree requires updating all leaf nodes related to that hash
+                                        - update data for a key/branch may include updates to existing fields as well new fields
+                                        - How to handle both?
+                            
+
+        Challenge: How to render highlighting.
+            Solution:
+                - labes can render rich.text objects.
+                - create function to render text as Text object with highlighting and markup
+                - send new data to render_text function
+                - set label to returned Text object
+                - set child.label to label
+
+        Challenge: remove branches/leaves
+
+
+    Database
+        Challenge: Run Redis server in background
+            Solution:
+            - Open with subprocess.Popen
+            - https://stackoverflow.com/questions/1196074/how-to-start-a-background-process-in-python
+        Challenge: Monitor changes to keys and values in real timer
+            Solution:
+            - keyspace notifications
+                - enable notifications with (or in /etc/redis/redis.conf)
+                - subscribe to 'channel' or pattern for desired keys
+                - 
+            - https://redis.io/docs/manual/keyspace-notifications/
+            - https://github.com/redis/redis-py
+            - https://tech.webinterpret.com/redis-notifications-python/
+            - https://medium.com/nerd-for-tech/redis-getting-notified-when-a-key-is-expired-or-changed-ca3e1f1c7f0a
+        Challenge: Close database Connection/Shutdown server
+            Solution:
+            - shutdown command
+                - confirm shutdown with `pgrep redis-server`
+        Challenge: Clear database
+            Solution:
+            - flushall command
         
 
 

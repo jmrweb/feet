@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.80 scan initiated Wed Apr 19 23:30:34 2023 as: nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1 -->
-<nmaprun scanner="nmap" args="nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1" start="1681947034" startstr="Wed Apr 19 23:30:34 2023" version="7.80" xmloutputversion="1.04">
+<!-- Nmap 7.80 scan initiated Thu Apr 20 22:57:31 2023 as: nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1 -->
+<nmaprun scanner="nmap" args="nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1" start="1682031451" startstr="Thu Apr 20 22:57:31 2023" version="7.80" xmloutputversion="1.04">
 <scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
 <verbose level="0"/>
 <debugging level="0"/>
-<host starttime="1681947034" endtime="1681947036"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<taskprogress task="Connect Scan" time="1682031451" percent="0.95"/>
+<taskprogress task="Connect Scan" time="1682031452" percent="4.23" remaining="23" etc="1682031475"/>
+<taskprogress task="Connect Scan" time="1682031452" percent="7.20" remaining="13" etc="1682031465"/>
+<host starttime="1682031451" endtime="1682031454"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="127.0.0.1" addrtype="ipv4"/>
 <hostnames>
 </hostnames>
@@ -21,13 +24,13 @@
 <port protocol="tcp" portid="8081"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="blackice-icecap" method="table" conf="3"/></port>
 <port protocol="tcp" portid="16634"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 <port protocol="tcp" portid="16635"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="32857"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="33711"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="34763"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
-<port protocol="tcp" portid="45787"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="34541"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="34803"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="43485"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="44147"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 </ports>
-<times srtt="86" rttvar="94" to="100000"/>
+<times srtt="78" rttvar="82" to="100000"/>
 </host>
-<runstats><finished time="1681947036" timestr="Wed Apr 19 23:30:36 2023" elapsed="2.45" summary="Nmap done at Wed Apr 19 23:30:36 2023; 1 IP address (1 host up) scanned in 2.45 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+<runstats><finished time="1682031454" timestr="Thu Apr 20 22:57:34 2023" elapsed="2.66" summary="Nmap done at Thu Apr 20 22:57:34 2023; 1 IP address (1 host up) scanned in 2.66 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
 </runstats>
 </nmaprun>
