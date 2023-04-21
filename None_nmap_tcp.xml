@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Fri Apr 21 22:58:41 2023 as: nmap -p- -n -oX None_nmap_tcp.xml 127.0.0.1 -->
+<nmaprun scanner="nmap" args="nmap -p- -n -oX None_nmap_tcp.xml 127.0.0.1" start="1682117921" startstr="Fri Apr 21 22:58:41 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<taskprogress task="Connect Scan" time="1682117921" percent="0.26"/>
+<taskprogress task="Connect Scan" time="1682117921" percent="1.63" remaining="0" etc="1682117921"/>
+<taskprogress task="Connect Scan" time="1682117921" percent="3.39" remaining="0" etc="1682117921"/>
+<taskprogress task="Connect Scan" time="1682117921" percent="4.46" remaining="0" etc="1682117921"/>
+<taskprogress task="Connect Scan" time="1682117921" percent="5.07" remaining="0" etc="1682117921"/>
+<taskprogress task="Connect Scan" time="1682117921" percent="6.74" remaining="0" etc="1682117921"/>
+<host starttime="1682117921" endtime="1682117924"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<address addr="127.0.0.1" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65523">
+<extrareasons reason="conn-refused" count="65523"/>
+</extraports>
+<port protocol="tcp" portid="2000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cisco-sccp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2222"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="EtherNetIP-1" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5990"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="wbem-exp-https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5991"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="nuxsl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="6379"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="redis" method="table" conf="3"/></port>
+<port protocol="tcp" portid="8081"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="blackice-icecap" method="table" conf="3"/></port>
+<port protocol="tcp" portid="16634"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="16635"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="33677"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="33963"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="35647"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="43641"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+</ports>
+<times srtt="136" rttvar="125" to="100000"/>
+</host>
+<runstats><finished time="1682117924" timestr="Fri Apr 21 22:58:44 2023" elapsed="3.24" summary="Nmap done at Fri Apr 21 22:58:44 2023; 1 IP address (1 host up) scanned in 3.24 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

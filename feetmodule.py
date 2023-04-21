@@ -1,5 +1,3 @@
-from rich.console import RenderableType
-
 from textual.widgets import Static
 from feetdb import FeetDB
 
@@ -8,23 +6,13 @@ class FeetModule(Static):
 
     DEFAULT_CSS = """
     FeetModule {
+        width: 100%;
+        height: 100%;
+        padding: 0 0;
     }
     """
 
-    def __init__(
-        self,
-        renderable: RenderableType = "",
-        *,
-        expand: bool = False,
-        shrink: bool = False,
-        markup: bool = True,
-        name: str | None = None,
-        id: str | None = None,
-        classes: str | None = None,
-        disabled: bool = False,
-        db: FeetDB,
-        host: str,
-    ) -> None:
-        super().__init__(renderable=renderable, expand=expand, shrink=shrink, markup=markup, name=name, id=id, classes=classes, disabled=disabled)
+    def __init__(self, *args, db: FeetDB, host: str, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
         self.db = db
-        self.host= host
+        self.host = host

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE nmaprun>
+<?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
+<!-- Nmap 7.80 scan initiated Fri Apr 21 23:08:38 2023 as: nmap -p- -n -oX 127.0.0.1_nmap_tcp.xml 127.0.0.1 -->
+<nmaprun scanner="nmap" args="nmap -p- -n -oX 127.0.0.1_nmap_tcp.xml 127.0.0.1" start="1682118518" startstr="Fri Apr 21 23:08:38 2023" version="7.80" xmloutputversion="1.04">
+<scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
+<verbose level="0"/>
+<debugging level="0"/>
+<host starttime="1682118518" endtime="1682118521"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<address addr="127.0.0.1" addrtype="ipv4"/>
+<hostnames>
+</hostnames>
+<ports><extraports state="closed" count="65524">
+<extrareasons reason="conn-refused" count="65524"/>
+</extraports>
+<port protocol="tcp" portid="2000"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="cisco-sccp" method="table" conf="3"/></port>
+<port protocol="tcp" portid="2222"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="EtherNetIP-1" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5990"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="wbem-exp-https" method="table" conf="3"/></port>
+<port protocol="tcp" portid="5991"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="nuxsl" method="table" conf="3"/></port>
+<port protocol="tcp" portid="6379"><state state="open" reason="syn-ack" reason_ttl="0"/><service name="redis" method="table" conf="3"/></port>
+<port protocol="tcp" portid="16634"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="16635"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="35521"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="38615"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="39831"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+<port protocol="tcp" portid="44787"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
+</ports>
+<times srtt="143" rttvar="129" to="100000"/>
+</host>
+<runstats><finished time="1682118521" timestr="Fri Apr 21 23:08:41 2023" elapsed="2.44" summary="Nmap done at Fri Apr 21 23:08:41 2023; 1 IP address (1 host up) scanned in 2.44 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+</runstats>
+</nmaprun>

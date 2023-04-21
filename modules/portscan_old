@@ -4,7 +4,6 @@ import jc
 from textual.app import ComposeResult
 from textual.widgets import Static, TextLog
 from feetmodule import FeetModule
-from modules.terminal import Terminal
 
 class Portscan(FeetModule):
     """Run port scans against a host, show output in a text_box, and parse output to db."""
@@ -30,7 +29,14 @@ class Portscan(FeetModule):
         content-align: center middle;
     }
 
-    
+    #output_log {
+        padding: 0 0;
+        background: $panel;
+        color: $text;
+        border: $secondary hkey;
+        border_title_align: center;
+        content-align: center middle;
+    }
     """
 
     #_output = reactive("")
@@ -38,35 +44,38 @@ class Portscan(FeetModule):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._process = None
+        self.text_log = None
+        self.output = ""
+        self.update_timer = self.set_interval(1/60, self.update_output, pause=True)
 
 
     def compose(self) -> ComposeResult:
         yield Static("Options", id='options')
-        #yield TextLog(id='output_log', highlight=True, markup=False)
-        yield Terminal(db=self.db, host=self.host, id='nmap_tcp', title='NMAP TCP Port Scan', interactive=False)
+        yield TextLog(id='output_log', highlight=True, markup=False)
 
 
     def on_mount(self) -> None:
         """Called when the module is mounted to the app"""
         
         #Initialize TextLog
-        #self.text_log = self.query_one(TextLog)
+        self.text_log = self.query_one(TextLog)
 
         #Set window title
         self.border_title = 'Port Scanner'
         self.query_one('#options').border_title = 'Options'
-        #self.query_one('#output_log').border_title = 'Output Log'
-
-        terminal = self.query_one('#nmap_tcp')
-        cmd = ["nmap", "-p-", "-n", "127.0.0.1", "-oX", f"{self.host}_{terminal.id}.xml"]
-        terminal.run_command(cmd)
+        self.query_one('#output_log').border_title = 'Output Log'
 
 
-    def parse_output(self, terminal: Terminal):
+        cmd = ["nmap", "-p-", "-n", "127.0.0.1", "-oX", f"{self.host}_nmap.xml"]
+        self.run_command(cmd)
+
+
+    def parse_output(self):
         """Parse output from nmap scan"""
 
         # parse xml to json
-        xml_file = open(f"{self.host}_{terminal.id}.xml", "r")
+        xml_file = open(f"{self.host}_nmap.xml", "r")
         xml = xml_file.read()
         xml_file.close()
         data = jc.parse('xml', xml)
@@ -87,6 +96,41 @@ class Portscan(FeetModule):
             self.db.conn.hset(self.host + ':ports:' + port['@portid'], mapping={'state': port['state']['@state']})
 
 
-    def on_terminal_command_complete(self, message: Terminal.CommandComplete) -> None:
+    def run_command(self, cmd: str):
+        """Start process for a cli command"""
+
+        # Start output update timer
+        self.update_timer.resume()
+        
+        # Execute command
+        self._process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+
+        # text_log = self.query_one(TextLog)
+        # process = subprocess.Popen(command, stdout=subprocess.PIPE)
+        # while True:
+        #     output = process.stdout.readline()
+        #     if len(output) == 0 and process.poll() is not None:
+        #         break
+        #     if output:
+        #         text_log.write(output.strip())
+        # rc = process.poll()
+        # return rc
+
+
+    def update_output(self) -> None:
         """Called on a set interval to update command output"""
-        self.parse_output(message.terminal)
+
+        #if len(self.output) == 0 and self._process.poll() is not None:
+        if len(self.output) == 0 and self._process.poll() is not None:
+            self.text_log.write("Command finished.")
+            self.update_timer.pause()
+
+            self.parse_output()
+        else:
+            self.output = self._process.stdout.readline()
+            self.text_log.write(str(self.output)[2:-3])
+
+
+    # def watch_output(self, output: str) -> None:
+    #     """Called when the command output updates"""
+    #     self.text_log.write(str(output)[2:-3])

@@ -1,21 +1,19 @@
-import sys
 import types
-import redis
-from feetdb import FeetDB
-
 from rich.console import RenderableType
 
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
-from textual.widgets import Button, ContentSwitcher, Footer, Header, Input, Label, ListView, ListItem, Placeholder, Static
+from textual.widgets import Button, ContentSwitcher, Footer, Header, Input, Label, ListView, ListItem, Static
 from textual import log
 from textual import events
 from textual.widget import Widget
 
-#import 3rd party widgets
+from feetdb import FeetDB
 from widgets.menubutton import MenuButton
 from widgets.menulist import MenuList
 from widgets.improvedtabs import ImprovedTabs, ImprovedTab
+
+#import 3rd party modules
 from modules import *
 
 class HostContainer(Vertical):
@@ -138,15 +136,8 @@ class HostInput(Static):
                 'ip': ip,
                 'os': 'None',
             })
-
         ipid = "ip" + ip.replace(".", "-")
-        #host_tabs = self.parent.query_one("#host_tabs")
-        #host_tabs.add_tab(ImprovedTab(ip, id=ipid))
         new_container = HostContainer(name=ip, id=ipid, classes="modules_container")
-        # host_switcher = self.parent.query_one("#host_switcher")
-        # host_switcher.mount(new_container)
-        #host_tabs.active = ipid
-
         mount_await = self.parent.query_one("#host_switcher").mount(new_container)
         
         async def refresh_active() -> None:
@@ -167,53 +158,18 @@ class HostInput(Static):
     def on_input_submitted(self, event: Input.Submitted) -> None:
         # Called when a button is pressed
         self.add_host(event.value)
+        self.query_one(Input).value = ""
 
     def on_mount(self) -> None:
         # Called when the widget is mounted
         self.border_title = "Add Host"
         self.visible = False
-        self.add_host("192.168.0.1")
+        self.add_host("127.0.0.1")
 
 
 class FeetApp(App):
 
     CSS_PATH = "feet.css"
-
-    #def add_imported_widget(widget, widget_name: str) -> None:
-    #    """Add a widget to the container"""
-    #    #widget = getattr(sys.modules[__name__], widget_name)()
-    #    widget = getattr(widget_name, widget_name)()
-    #    new_widget = widget()
-    #    self.query_one("widgets").mount(new_widget)
-
-    #def get_imports() -> list:
-    #    for name, val in globals().items():
-    #        if isinstance(val, types.ModuleType):
-    #            yield val.__name__
-
-    # tabbed_containers: dict
- 
-    # def get_imported_modules(self) -> None:
-    #     """Add imported modules to the container"""
-    #     for module in self.modules:
-    #         self.add_imported_module(module)
-
-    # def action_remove_imported_widget(self, widget_name: str) -> None:
-    #     """Remove a widget from the container"""
-    #     widget = getattr(sys.modules[__name__], widget_name)()
-    #     self.query_one("widgets").unmount(widget)
-
-    # def action_remove_tab(self) -> None:
-    #     """Remove active tab."""
-    #     tabs = self.query_one("#module_tabs")
-    #     active_tab = tabs.active_tab
-    #     if active_tab is not None:
-    #         tabs.remove_tab(active_tab.id)
-
-    # def get_modules() -> list:
-    #     for name, val in globals().items():
-    #         if isinstance(val, types.ModuleType) and val.__name__.startswith('modules'):
-    #             yield val.__name__[8:]
 
     def compose(self) -> ComposeResult:
 
@@ -224,11 +180,7 @@ class FeetApp(App):
                 yield MenuButton("File", id="file_menu_button", classes="menu_button")
                 yield Button("Network", id="network_menu_button", classes="menu_button")
                 yield Button(" + ", id="add_host_button", classes="menu_button")
-                yield ImprovedTabs(
-                    # ImprovedTab("192.168.0.11", id="ip192-168-0-11"),
-                    # ImprovedTab("192.168.0.12", id="ip192-168-0-12"),
-                    id="host_tabs",
-                )
+                yield ImprovedTabs(id="host_tabs")
             yield MenuList(
                 ListItem(Label("Open"), id="Open"),
                 ListItem(Label("Save"), id="Save"),
@@ -246,12 +198,7 @@ class FeetApp(App):
             #     initial_index=None, id="network_menu_list",
             # )
             yield ContentSwitcher(id="host_switcher")
-                # yield HostContainer(id="ip192-168-0-11", classes="modules_container")#, modules=self.modules)
-                # yield HostContainer(id="ip192-168-0-12", classes="modules_container")#, modules=self.modules)
         yield Footer()
-        #yield widgetselector.Widgetselector(self.widgets)
-        #yield Container(widgetselector.Widgetselector(), id="container_main")
-        #self.add_imported_widgets()
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """ Handle buttonPressed message. """
@@ -302,9 +249,6 @@ class FeetApp(App):
         log(f"[bold_red]on_list_view_selected: [/] {event.item.id}")
 
         if event.item.id == "Exit":
-            # for timer in self.query("Timer"):
-            #     log(f"[bold_red]on_list_view_selected: [/] Removing Timer: {timer.name}")
-            #     timer.stop()
             self.db.close()
             exit()
         elif event.item.parent.id == "module_list":
@@ -336,22 +280,16 @@ class FeetApp(App):
     def on_improved_tabs_tab_removed(self, message: ImprovedTabs.TabRemoved) -> None:
         """ Handle TabRemoved message sent by ImprovedTabs. """
         
-        #self.query_one(message.tab.id).remove()
         if message.tabs.id == "host_tabs":
             host_switcher = self.query_one("#host_switcher")
             host_switcher.current = None
             child = host_switcher.get_child_by_id(message.tab.id)
             child.remove()
-            #log(f"[bold_red]on_improved_tabs_tab_removed: [/] Child: {child.id}")
-        #     self.query_one("#host_switcher").remove(message.tab.id)
         elif message.tabs.id == "module_tabs":
             module_switcher = message.tabs.parent.parent.query_one(ContentSwitcher)
             module_switcher.current = None
             child = module_switcher.get_child_by_id(message.tab.id)
             child.remove()
-        # else:
-        #     log(f"[bold_red]on_improved_tabs_tab_activated: [/] Parent ImprovedTabs: {message.tabs.id}")
-        #     log(f"[bold_red]on_improved_tabs_tab_activated: [/] Parent ContentSwitcher: {message.tabs.parent.parent.query_one(ContentSwitcher)}")
 
     # get list of imported modules
     #modules = list(get_modules())

@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE nmaprun>
 <?xml-stylesheet href="file:///usr/bin/../share/nmap/nmap.xsl" type="text/xsl"?>
-<!-- Nmap 7.80 scan initiated Fri Apr 21 17:53:03 2023 as: nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1 -->
-<nmaprun scanner="nmap" args="nmap -p- -n -oX 192.168.0.1_nmap.xml 127.0.0.1" start="1682099583" startstr="Fri Apr 21 17:53:03 2023" version="7.80" xmloutputversion="1.04">
+<!-- Nmap 7.80 scan initiated Fri Apr 21 18:13:53 2023 as: nmap -p- -n -oX 127.0.0.1_nmap.xml 127.0.0.1 -->
+<nmaprun scanner="nmap" args="nmap -p- -n -oX 127.0.0.1_nmap.xml 127.0.0.1" start="1682100833" startstr="Fri Apr 21 18:13:53 2023" version="7.80" xmloutputversion="1.04">
 <scaninfo type="connect" protocol="tcp" numservices="65535" services="1-65535"/>
 <verbose level="0"/>
 <debugging level="0"/>
-<taskprogress task="Ping Scan" time="1682099583" percent="100.00" remaining="0" etc="1682099583"/>
-<taskprogress task="Connect Scan" time="1682099584" percent="66.87" remaining="1" etc="1682099584"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="68.24" remaining="1" etc="1682099586"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="68.54" remaining="1" etc="1682099586"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="69.46" remaining="1" etc="1682099586"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="71.98" remaining="1" etc="1682099586"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="75.41" remaining="1" etc="1682099586"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="79.15" remaining="1" etc="1682099586"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="80.60" remaining="1" etc="1682099585"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="81.97" remaining="1" etc="1682099585"/>
-<taskprogress task="Connect Scan" time="1682099585" percent="87.54" remaining="1" etc="1682099585"/>
-<host starttime="1682099583" endtime="1682099585"><status state="up" reason="conn-refused" reason_ttl="0"/>
+<host starttime="1682100833" endtime="1682100835"><status state="up" reason="conn-refused" reason_ttl="0"/>
 <address addr="127.0.0.1" addrtype="ipv4"/>
 <hostnames>
 </hostnames>
@@ -37,8 +26,8 @@
 <port protocol="tcp" portid="40589"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 <port protocol="tcp" portid="43309"><state state="open" reason="syn-ack" reason_ttl="0"/></port>
 </ports>
-<times srtt="119" rttvar="87" to="100000"/>
+<times srtt="109" rttvar="81" to="100000"/>
 </host>
-<runstats><finished time="1682099585" timestr="Fri Apr 21 17:53:05 2023" elapsed="2.20" summary="Nmap done at Fri Apr 21 17:53:05 2023; 1 IP address (1 host up) scanned in 2.20 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
+<runstats><finished time="1682100835" timestr="Fri Apr 21 18:13:55 2023" elapsed="2.48" summary="Nmap done at Fri Apr 21 18:13:55 2023; 1 IP address (1 host up) scanned in 2.48 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
 </runstats>
 </nmaprun>

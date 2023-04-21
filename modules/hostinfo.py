@@ -150,4 +150,3 @@ class Hostinfo(FeetModule):
                     split_key = key.split(':')
                     if not split_key[len(split_key)-1] == 'index':
                         self.update_tree(message)
- 
